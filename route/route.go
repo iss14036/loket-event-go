@@ -7,6 +7,7 @@ import (
 	"log"
 	"loket-event-go/config"
 	"loket-event-go/connection"
+	"loket-event-go/controller"
 	"net/http"
 	"os"
 	"time"
@@ -16,7 +17,7 @@ var wait time.Duration
 
 func Run(c *config.Config, s <-chan os.Signal) {
 	db := connection.GetConnection(c)
-	fmt.Sprintf("connection for db ",db)
+	log.Println("connection for db ",db)
 
 	r := mux.NewRouter()
 
@@ -32,6 +33,7 @@ func Run(c *config.Config, s <-chan os.Signal) {
 	}
 
 	r.HandleFunc("/", index)
+	r.HandleFunc("/customers", controller.GetAllCustomer).Methods("GET")
 
 	// Run our server in a goroutine so that it doesn't block.
 	go func() {

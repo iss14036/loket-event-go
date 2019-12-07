@@ -14,7 +14,7 @@ var connection *sqlx.DB
 func GetConnection(config *config.Config) *sqlx.DB {
 	once.Do(func() {
 		db, err := sqlx.Connect("mysql",
-			fmt.Sprintf("%s:%s@(%s:%v)/%s",
+			fmt.Sprintf("%s:%s@(%s:%v)/%s?parseTime=true",
 				config.MysqlUsername,
 				config.MysqlPassword,
 				config.MysqlHost,

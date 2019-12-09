@@ -47,7 +47,9 @@ func Run(c *config.Config, s <-chan os.Signal) {
 	// Create a deadline to wait for.
 	ctx, cancel := context.WithTimeout(context.Background(), wait)
 	defer cancel()
-	srv.Shutdown(ctx)
+	if err := srv.Shutdown(ctx); err != nil {
+		panic(err)
+	}
 	log.Println("shutting down")
 	os.Exit(0)
 }

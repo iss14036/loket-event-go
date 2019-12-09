@@ -21,7 +21,7 @@ func NewCli() *Cli {
 }
 
 func (c *Cli) Run() {
-	d := make(chan os.Signal)
+	d := make(chan os.Signal, 1)
 	signal.Notify(d, os.Interrupt)
 
 	route.Run(c.Config, d)

@@ -18,7 +18,9 @@ type (
 )
 
 func init() {
-	gotenv.Load()
+	if err := gotenv.Load(); err != nil {
+		panic(err)
+	}
 }
 
 func NewConfig() *Config {

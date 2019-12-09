@@ -5,5 +5,6 @@ import "loket-event-go/model"
 type (
 	CustomerInterface interface {
 		GetAllCustomer() []model.Customer
+		GetCustomer() model.Customer
 	}
 )

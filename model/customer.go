@@ -1,10 +1,19 @@
 package model
 
 import (
+	"github.com/jmoiron/sqlx"
 	"loket-event-go/config"
 	"loket-event-go/connection"
 	"time"
 )
+
+type CustomerModel struct {
+	Db *sqlx.DB
+}
+
+func NewCustomerModel() *CustomerModel {
+	return &CustomerModel{Db: connection.GetConnection(config.NewConfig())}
+}
 
 type Customer struct {
 	Id        int64     `json:"id" db:"id"`
@@ -14,8 +23,8 @@ type Customer struct {
 	UpdateAt  time.Time `json:"update_at" db:"updated_at"`
 }
 
-func GetAllCustomer() []Customer {
-	db := connection.GetConnection(config.NewConfig())
+func (c *CustomerModel) GetAllCustomer() []Customer {
+	db := c.Db
 	var customers []Customer
 	err := db.Select(&customers, "SELECT * FROM customers order by id ASC")
 	if err != nil {

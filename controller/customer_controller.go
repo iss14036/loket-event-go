@@ -7,7 +7,8 @@ import (
 )
 
 var GetAllCustomer = func(w http.ResponseWriter, r *http.Request) {
-	customers := model.GetAllCustomer()
+	db := model.NewCustomerModel()
+	customers := db.GetAllCustomer()
 	resp := util.Message(true, "success")
 	resp["data"] = customers
 	util.Respond(w, resp)

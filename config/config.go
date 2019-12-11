@@ -17,14 +17,17 @@ type (
 	}
 )
 
+var appDB = Config{}
+
 func init() {
 	if err := gotenv.Load(); err != nil {
 		panic(err)
 	}
+	NewConfig()
 }
 
 func NewConfig() *Config {
-	return &Config{
+	appDB = Config{
 		MysqlHost:     os.Getenv("MYSQL_HOST"),
 		MysqlPort:     os.Getenv("MYSQL_PORT"),
 		MysqlUsername: os.Getenv("MYSQL_USERNAME"),
@@ -33,4 +36,9 @@ func NewConfig() *Config {
 		AppHost:       os.Getenv("HOST"),
 		AppPort:       os.Getenv("PORT"),
 	}
+	return &appDB
+}
+
+func GetConfig() Config{
+	return appDB
 }

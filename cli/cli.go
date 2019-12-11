@@ -8,6 +8,7 @@ import (
 	"loket-event-go/config"
 	"loket-event-go/connection"
 	"loket-event-go/route"
+	"loket-event-go/service"
 	"net/http"
 	"os"
 	"os/signal"
@@ -33,10 +34,10 @@ func (c *Cli) Run() {
 	d := make(chan os.Signal, 1)
 	signal.Notify(d, os.Interrupt)
 
-	db := connection.GetConnection(c.Config)
+	db := connection.GetConnection()
 	log.Println("connection for db ",db)
 
-	r := route.Router(c.Config)
+	r := route.Router(c.Config, service.NewServices(db))
 	n := negroni.Classic()
 	n.UseHandler(r)
 

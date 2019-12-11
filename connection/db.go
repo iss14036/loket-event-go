@@ -11,7 +11,8 @@ import (
 var once sync.Once
 var connection *sqlx.DB
 
-func GetConnection(config *config.Config) *sqlx.DB {
+func GetConnection() *sqlx.DB {
+	config := config.GetConfig()
 	once.Do(func() {
 		db, err := sqlx.Connect("mysql",
 			fmt.Sprintf("%s:%s@(%s:%v)/%s?parseTime=true",

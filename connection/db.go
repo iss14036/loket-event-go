@@ -11,7 +11,14 @@ import (
 var once sync.Once
 var connection *sqlx.DB
 
-func GetConnection() *sqlx.DB {
+type Connector interface {
+	GetConnection() *sqlx.DB
+}
+
+type Mysql struct {
+}
+
+func (ms Mysql) GetConnection() *sqlx.DB {
 	config := config.GetConfig()
 	once.Do(func() {
 		db, err := sqlx.Connect("mysql",

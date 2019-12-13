@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"loket-event-go/config"
-	"loket-event-go/connection"
 	"loket-event-go/handler"
 	"loket-event-go/service"
 	"net/http"
@@ -14,7 +13,7 @@ import (
 func Router(c *config.Config, services service.Services) *mux.Router {
 	r := mux.NewRouter()
 	r.HandleFunc("/", index)
-	customerHandler := handler.NewCustomerHandler(connection.GetConnection(), services.NewCustomerHandlerDependencies().CustomerService)
+	customerHandler := handler.NewCustomerHandler(services.NewCustomerHandlerDependencies().CustomerService)
 	r.HandleFunc("/customers", customerHandler.GetAllCustomer).Methods(http.MethodGet)
 
 	return r

@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"github.com/jmoiron/sqlx"
 	"loket-event-go/connection"
 	"loket-event-go/service"
 	"loket-event-go/util"
@@ -9,13 +8,12 @@ import (
 )
 
 type customerHandler struct {
-	db              *sqlx.DB
+	db              connection.Mysql
 	customerService service.CustomerService
 }
 
-func NewCustomerHandler(db *sqlx.DB, customerService service.CustomerService) *customerHandler {
+func NewCustomerHandler(customerService service.CustomerService) *customerHandler {
 	return &customerHandler{
-		db: connection.GetConnection(),
 		customerService: customerService,
 	}
 }

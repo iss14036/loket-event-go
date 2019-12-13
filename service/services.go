@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/jmoiron/sqlx"
+	"loket-event-go/connection"
 	"loket-event-go/repository"
 )
 
@@ -13,7 +13,7 @@ type services struct {
 	CustomerService
 }
 
-func NewServices(db *sqlx.DB) Services {
+func NewServices(db connection.Mysql) Services {
 	cRepository := repository.NewCustomerRepository()
 	cService := NewCustomerService(db, cRepository)
 	return &services{CustomerService: cService}

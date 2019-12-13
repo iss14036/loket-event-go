@@ -1,7 +1,6 @@
 package service
 
 import (
-	"github.com/jmoiron/sqlx"
 	"loket-event-go/connection"
 	"loket-event-go/domain"
 	"loket-event-go/repository"
@@ -12,19 +11,19 @@ type (
 		GetAllCustomer() []domain.Customer
 	}
 	customerService struct {
-		DB                 *sqlx.DB
+		DB                 connection.Mysql
 		customerRepository repository.CustomerRepository
 	}
 )
 
-func NewCustomerService(DB *sqlx.DB, repository repository.CustomerRepository) *customerService {
+func NewCustomerService(db connection.Mysql, repository repository.CustomerRepository) *customerService {
 	return &customerService{
-		DB:                 connection.GetConnection(),
+		DB:                 db,
 		customerRepository: repository,
 	}
 }
 
 func (cs *customerService) GetAllCustomer() []domain.Customer {
-	customers := cs.customerRepository.GetAllCustomer(cs.DB)
+	customers := cs.customerRepository.GetAllCustomer(cs.DB.GetConnection())
 	return customers
 }

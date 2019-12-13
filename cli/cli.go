@@ -34,7 +34,7 @@ func (c *Cli) Run() {
 	d := make(chan os.Signal, 1)
 	signal.Notify(d, os.Interrupt)
 
-	db := connection.GetConnection()
+	db := connection.Mysql{}
 	log.Println("connection for db ",db)
 
 	r := route.Router(c.Config, service.NewServices(db))

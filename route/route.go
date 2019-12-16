@@ -15,6 +15,13 @@ func Router(c *config.Config, services service.Services) *mux.Router {
 	r := mux.NewRouter()
 	r.Handle("/metric", promhttp.Handler())
 	r.HandleFunc("/", index)
+
+	r = CustomerRouter(r, services)
+
+	return r
+}
+
+func CustomerRouter(r *mux.Router, services service.Services) *mux.Router {
 	customerHandler := handler.NewCustomerHandler(services.NewCustomerHandlerDependencies().CustomerService)
 	r.HandleFunc("/customers", customerHandler.GetAllCustomer).Methods(http.MethodGet)
 	r.HandleFunc("/customers", customerHandler.CreateCustomer).Methods(http.MethodPost)

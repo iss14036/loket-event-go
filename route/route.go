@@ -3,6 +3,7 @@ package route
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"loket-event-go/config"
 	"loket-event-go/handler"
 	"loket-event-go/service"
@@ -12,9 +13,11 @@ import (
 
 func Router(c *config.Config, services service.Services) *mux.Router {
 	r := mux.NewRouter()
+	r.Handle("/metric", promhttp.Handler())
 	r.HandleFunc("/", index)
 	customerHandler := handler.NewCustomerHandler(services.NewCustomerHandlerDependencies().CustomerService)
 	r.HandleFunc("/customers", customerHandler.GetAllCustomer).Methods(http.MethodGet)
+	r.HandleFunc("/customers", customerHandler.CreateCustomer).Methods(http.MethodPost)
 
 	return r
 }

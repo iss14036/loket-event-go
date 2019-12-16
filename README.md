@@ -59,3 +59,5 @@ For further command, you can open [HERE](https://github.com/amacneil/dbmate).
 ```
 go run main.go
 ```
+
+For List of Endpoint, you can open [HERE](docs/ENDPOINT.md).
